@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MeleeEnemy : MonoBehaviour
 {
-    
     [SerializeField] private float attackCooldown;
     [SerializeField] private float range;
     [SerializeField] private float colliderDistance;
@@ -47,29 +46,28 @@ public class MeleeEnemy : MonoBehaviour
         {
             if (cooldownTimer >= attackCooldown)
             {
-                    cooldownTimer = 0;
-                    anim.SetBool("Moving", false); // Stop animasi jalan dulu
-                    anim.ResetTrigger("MeleeAttack"); // Optional (hindari trigger dobel)
-                    anim.SetTrigger("MeleeAttack");
-            }  
+                cooldownTimer = 0;
+                anim.SetBool("Moving", false); // Stop animasi jalan dulu
+                anim.ResetTrigger("MeleeAttack"); // Hindari trigger dobel
+                anim.SetTrigger("MeleeAttack");
+            }
         }
         if (enemyPatrol != null)
         {
-            enemyPatrol.enabled = !PlayerInSight();
+            enemyPatrol.enabled = !PlayerInSight(); // Aktifkan patrol jika player tidak terdeteksi
         }
     }
 
-    private bool PlayerInSight()
+    public bool PlayerInSight()
     {
-        RaycastHit2D hit = 
-            Physics2D.BoxCast(boxCollider.bounds.center + transform.right * range * transform.localScale.x * colliderDistance,
+        RaycastHit2D hit = Physics2D.BoxCast(boxCollider.bounds.center + transform.right * range * transform.localScale.x * colliderDistance,
             new Vector3(boxCollider.bounds.size.x * range, boxCollider.bounds.size.y, boxCollider.bounds.size.z),
             0, Vector2.left, 0, playerLayer);
 
         if (hit.collider != null)
             playerHealth = hit.transform.GetComponent<PlayerHealth>();
 
-        return hit.collider != null; // Placeholder return value
+        return hit.collider != null;
     }
 
     private void OnDrawGizmos()
