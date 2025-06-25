@@ -70,6 +70,19 @@ public class MeleeEnemy : MonoBehaviour
         return hit.collider != null;
     }
 
+    public void DamagePlayer()
+    {
+        if (playerHealth != null)
+        {
+            playerHealth.ChangeHealth(-damage);
+            Debug.Log("Serangan ke player: " + damage + " damage pada " + Time.time);
+        }
+        else
+        {
+            Debug.LogWarning("playerHealth null saat DamagePlayer dipanggil. Periksa PlayerInSight()");
+        }
+    }
+
     private void OnDrawGizmos()
     {
         if (boxCollider == null) return;
