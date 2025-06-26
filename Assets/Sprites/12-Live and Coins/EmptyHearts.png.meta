@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: HeartsEmpty_0
+      name: EmptyHearts_0
       rect:
         serializedVersion: 2
         x: 1693
@@ -111,14 +111,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bddc1053356ce2d4d9e43698dd0938d8
-      internalID: 1576131472
+      spriteID: 431b9b4cc50b4e545889dc3048c76983
+      internalID: 1268778365
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeartsEmpty_1
+      name: EmptyHearts_1
       rect:
         serializedVersion: 2
         x: 2042
@@ -132,14 +132,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eaf8803c2079c454d9aa7cafb02ae228
-      internalID: 1356373262
+      spriteID: 680b7bf013906804a84677ffb4294ec9
+      internalID: -1342482066
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeartsEmpty_2
+      name: EmptyHearts_2
       rect:
         serializedVersion: 2
         x: 2388
@@ -153,14 +153,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 31560f994641c934cae6f77f1f4f0875
-      internalID: -854752146
+      spriteID: 669974bcf6b12044698fe61474a26a82
+      internalID: -383456424
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeartsEmpty_3
+      name: EmptyHearts_3
       rect:
         serializedVersion: 2
         x: 2736
@@ -174,14 +174,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9b839ca5267637d46a57d4fb20103410
-      internalID: -2133252517
+      spriteID: e9802f6290b44494c8c59768cb76da88
+      internalID: -1482067521
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeartsEmpty_4
+      name: EmptyHearts_4
       rect:
         serializedVersion: 2
         x: 3085
@@ -195,14 +195,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fd1c93bcfb7c48c43bc49083d54013c8
-      internalID: -796410530
+      spriteID: 9dc2c73bd787efe439c6510f86039442
+      internalID: 1445513575
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeartsEmpty_5
+      name: EmptyHearts_5
       rect:
         serializedVersion: 2
         x: 3413
@@ -216,14 +216,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0769c2da96ce61944954f6ca722b7fa9
-      internalID: 1410228858
+      spriteID: 39e62ae0d752b1f4e83b54d016c3f500
+      internalID: 602139261
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeartsEmpty_6
+      name: EmptyHearts_6
       rect:
         serializedVersion: 2
         x: 3782
@@ -237,14 +237,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e6f6d80bbbafd04dabb298dc55b7155
-      internalID: 183515797
+      spriteID: f61200ddd1ed75a45ac70c8e7943f22b
+      internalID: -1636904272
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HeartsEmpty_7
+      name: EmptyHearts_7
       rect:
         serializedVersion: 2
         x: 4148
@@ -258,8 +258,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fc7b7b2bd62729a40b9003b4900fe5d2
-      internalID: -798355481
+      spriteID: 61898d1e4bf8c3a458e374a8b581181f
+      internalID: 901116448
       vertices: []
       indices: 
       edges: []
@@ -275,14 +275,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      HeartsEmpty_0: 1576131472
-      HeartsEmpty_1: 1356373262
-      HeartsEmpty_2: -854752146
-      HeartsEmpty_3: -2133252517
-      HeartsEmpty_4: -796410530
-      HeartsEmpty_5: 1410228858
-      HeartsEmpty_6: 183515797
-      HeartsEmpty_7: -798355481
+      EmptyHearts_0: 1268778365
+      EmptyHearts_1: -1342482066
+      EmptyHearts_2: -383456424
+      EmptyHearts_3: -1482067521
+      EmptyHearts_4: 1445513575
+      EmptyHearts_5: 602139261
+      EmptyHearts_6: -1636904272
+      EmptyHearts_7: 901116448
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Big Heart Idle (18x14)_0
+      name: FullHearts_0
       rect:
         serializedVersion: 2
         x: 5
@@ -111,14 +111,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5477680f77ce1aa4193c2ef3f4f8dd73
-      internalID: -1928006548
+      spriteID: 3ab9cba287569e04a99949fb96f86a92
+      internalID: -449970564
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Big Heart Idle (18x14)_1
+      name: FullHearts_1
       rect:
         serializedVersion: 2
         x: 23
@@ -132,14 +132,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9a89c33fc63408d45a7844ad6a36db1e
-      internalID: 934909094
+      spriteID: 0d182c8e52a525e4f9a5b93af5ba9cbc
+      internalID: 481539337
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Big Heart Idle (18x14)_2
+      name: FullHearts_2
       rect:
         serializedVersion: 2
         x: 41
@@ -153,14 +153,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6d50fa236e93b8d459f7916eeb5debdd
-      internalID: -1631855913
+      spriteID: 6dc57d12087060048826785b7dee384c
+      internalID: -65285855
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Big Heart Idle (18x14)_3
+      name: FullHearts_3
       rect:
         serializedVersion: 2
         x: 59
@@ -174,14 +174,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ad9dd133466818444a1663f511474866
-      internalID: -1937153661
+      spriteID: fcfc784773031ca4799cc3392f2cb0b5
+      internalID: -482383131
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Big Heart Idle (18x14)_4
+      name: FullHearts_4
       rect:
         serializedVersion: 2
         x: 77
@@ -195,14 +195,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 676eb452e78217641b8d26a3966de95f
-      internalID: 324053908
+      spriteID: 581d248c6d422024d8e4bcd40b2e1086
+      internalID: 715795166
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Big Heart Idle (18x14)_5
+      name: FullHearts_5
       rect:
         serializedVersion: 2
         x: 94
@@ -216,14 +216,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: feb012d0636be9d419efbf9c4bcf908a
-      internalID: 803003956
+      spriteID: 4bd002e6c543329429157c48903f09aa
+      internalID: -306042357
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Big Heart Idle (18x14)_6
+      name: FullHearts_6
       rect:
         serializedVersion: 2
         x: 113
@@ -237,14 +237,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 51ba0963cc56846429761c738a41bd11
-      internalID: -465219961
+      spriteID: 8c675f2e66d33d547b44b1676f30e872
+      internalID: 1624308283
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Big Heart Idle (18x14)_7
+      name: FullHearts_7
       rect:
         serializedVersion: 2
         x: 132
@@ -258,8 +258,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7b8e837de9d5dd946916f337aeb6f223
-      internalID: 170687985
+      spriteID: 5bed83f353eaa1c4a8575b7ec40eb51a
+      internalID: -534170262
       vertices: []
       indices: 
       edges: []
@@ -275,14 +275,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Big Heart Idle (18x14)_0: -1928006548
-      Big Heart Idle (18x14)_1: 934909094
-      Big Heart Idle (18x14)_2: -1631855913
-      Big Heart Idle (18x14)_3: -1937153661
-      Big Heart Idle (18x14)_4: 324053908
-      Big Heart Idle (18x14)_5: 803003956
-      Big Heart Idle (18x14)_6: -465219961
-      Big Heart Idle (18x14)_7: 170687985
+      FullHearts_0: -449970564
+      FullHearts_1: 481539337
+      FullHearts_2: -65285855
+      FullHearts_3: -482383131
+      FullHearts_4: 715795166
+      FullHearts_5: -306042357
+      FullHearts_6: 1624308283
+      FullHearts_7: -534170262
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
