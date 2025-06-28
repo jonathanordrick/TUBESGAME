@@ -2509,7 +2509,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 971525495}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 357ba5d58121340dc9de126df9ddc6f9, type: 3}
@@ -16358,8 +16358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abcc7f0fdf60ccb42a660bdc4c8ed07e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
-  maxHealth: 10
+  playerHealth: {fileID: 0}
   emptyHeart: {fileID: 1576131472, guid: 8c36043505155b24b872deaf597c052f, type: 3}
   fullHeart: {fileID: -1928006548, guid: 4ea681e1740ede942b24583756e00e8a, type: 3}
   hearts: []
