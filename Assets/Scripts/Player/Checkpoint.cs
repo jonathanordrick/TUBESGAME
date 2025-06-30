@@ -44,6 +44,9 @@ public class Checkpoint : MonoBehaviour
             // Update checkpoint position
             playerRespawn.UpdateCheckpoint(transform.position);
             
+            // Record checkpoint reached
+            GameStats.RecordCheckpoint();
+            
             // Mark as activated
             isActivated = true;
             

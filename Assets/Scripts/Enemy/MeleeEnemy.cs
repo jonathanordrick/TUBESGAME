@@ -18,10 +18,20 @@ public class MeleeEnemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (PlayerInSight())
+        // Hanya proses jika yang collision adalah player, bukan ground atau objek lain
+        if (!collision.collider.CompareTag("Player")) return;
+        
+        // Cek apakah cooldown sudah selesai dan player masih hidup
+        if (cooldownTimer >= attackCooldown)
         {
-            collision.collider.GetComponent<PlayerHealth>().ChangeHealth(-damage);
-            anim.SetTrigger("MeleeAttack");
+            PlayerHealth playerHealth = collision.collider.GetComponent<PlayerHealth>();
+            if (playerHealth != null && playerHealth.IsAlive())
+            {
+                playerHealth.ChangeHealth(-damage);
+                anim.SetTrigger("MeleeAttack");
+                cooldownTimer = 0; // Reset cooldown setelah attack
+                Debug.Log("Enemy attacked player for " + damage + " damage via collision");
+            }
         }
     }
 
@@ -72,14 +82,29 @@ public class MeleeEnemy : MonoBehaviour
 
     public void DamagePlayer()
     {
-        if (playerHealth != null)
+        // Method ini dipanggil dari Animation Event saat serangan
+        if (playerHealth != null && playerHealth.IsAlive())
         {
             playerHealth.ChangeHealth(-damage);
-            Debug.Log("Serangan ke player: " + damage + " damage pada " + Time.time);
+            Debug.Log("Enemy attacked player for " + damage + " damage via animation event at " + Time.time);
         }
         else
         {
-            Debug.LogWarning("playerHealth null saat DamagePlayer dipanggil. Periksa PlayerInSight()");
+            // Cari player lagi jika reference hilang
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                PlayerHealth health = player.GetComponent<PlayerHealth>();
+                if (health != null && health.IsAlive())
+                {
+                    health.ChangeHealth(-damage);
+                    Debug.Log("Enemy attacked player for " + damage + " damage (found player again)");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Player not found when DamagePlayer called");
+            }
         }
     }
 

@@ -13,36 +13,53 @@ public class EnemyMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        
+        // Validasi component
+        if (rb == null)
+        {
+            Debug.LogError("Rigidbody2D not found on " + gameObject.name);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isChasing == true)
+        // Cek apakah sedang chasing dan player reference valid
+        if (isChasing && player != null && rb != null)
         {
-        Vector2 direction = (player.position - transform.position).normalized;
-        rb.velocity = direction * speed;
-        } 
+            Vector2 direction = (player.position - transform.position).normalized;
+            rb.velocity = direction * speed;
+        }
+        else if (isChasing && player == null)
+        {
+            // Jika player reference hilang, stop chasing
+            isChasing = false;
+            if (rb != null)
+            {
+                rb.velocity = Vector2.zero;
+            }
+            Debug.LogWarning("Player reference lost, stopping chase");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.CompareTag("Player"))
         {
-            if(player != null)
-            {
-                player = collision.transform; // Get the player's transform
-            }
+            player = collision.transform; // Set player reference
             isChasing = true;
+            Debug.Log("Enemy started chasing player");
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.CompareTag("Player"))
         {
             rb.velocity = Vector2.zero; // Stop moving when player exits trigger
             isChasing = false;
+            player = null; // Clear player reference
+            Debug.Log("Enemy stopped chasing player");
         }
     }
 }

@@ -31,6 +31,39 @@ public class PlayerHealth : MonoBehaviour
             anim.SetTrigger("die");
             GetComponent<PlayerMovement>().enabled = false;
             isDead = true;
+            
+            // Panggil sistem respawn ketika player mati
+            respawn playerRespawn = GetComponent<respawn>();
+            if (playerRespawn != null)
+            {
+                playerRespawn.Die();
+            }
+            else
+            {
+                Debug.LogWarning("Respawn component tidak ditemukan pada Player!");
+            }
         }
+    }
+    
+    // Method untuk reset health ketika respawn
+    public void ResetHealth()
+    {
+        currentHealth = maxHealth;
+        isDead = false;
+        
+        // Re-enable player movement
+        PlayerMovement playerMovement = GetComponent<PlayerMovement>();
+        if (playerMovement != null)
+        {
+            playerMovement.enabled = true;
+        }
+        
+        Debug.Log("Player health reset to: " + currentHealth);
+    }
+    
+    // Method untuk check apakah player masih hidup
+    public bool IsAlive()
+    {
+        return !isDead && currentHealth > 0;
     }
 }

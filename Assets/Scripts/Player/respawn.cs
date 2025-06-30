@@ -6,6 +6,7 @@ public class respawn : MonoBehaviour
 {
     [Header("Respawn Settings")]
     public float respawnDelay = 1f;
+    public int maxRespawns = 2; // Jumlah maksimal respawn
     public LayerMask deathLayer = -1; // Layer yang menyebabkan kematian (seperti spikes, lava, dll)
     
     [Header("Components")]
@@ -18,10 +19,21 @@ public class respawn : MonoBehaviour
     public GameObject deathEffect; // Particle effect saat mati (opsional)
     public GameObject respawnEffect; // Particle effect saat respawn (opsional)
     
+    [Header("Game Over")]
+    public GameObject gameOverUI; // UI Game Over (opsional)
+    public string gameOverSceneName = "EndGame"; // Nama scene Game Over
+    public float gameOverDelay = 2f; // Delay sebelum pindah scene
+    
     private bool isDead = false;
+    private int currentRespawns = 0; // Counter respawn yang sudah digunakan
+    private SceneManagement sceneManager; // Reference ke SceneManagement
     // Start is called before the first frame update
     void Start()
     {
+        // Force set correct scene name (untuk memastikan tidak ada cache lama)
+        gameOverSceneName = "EndGame"; // Force set tanpa kondisi
+        Debug.Log($"Game Over Scene Name forced to: {gameOverSceneName}");
+        
         // Set initial checkpoint sebagai posisi awal player
         checkpointPos = transform.position;
         
@@ -29,6 +41,13 @@ public class respawn : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<Collider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        
+        // Cari SceneManagement component
+        sceneManager = FindObjectOfType<SceneManagement>();
+        if (sceneManager == null)
+        {
+            Debug.LogWarning("SceneManagement not found in scene!");
+        }
         
         // Validasi component
         if (rb == null)
@@ -40,10 +59,15 @@ public class respawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Cek jika player jatuh ke bawah map (opsional)
+        // Cek jika player jatuh ke bawah map (berikan damage fatal)
         if (transform.position.y < -50f && !isDead)
         {
-            Die();
+            PlayerHealth playerHealth = GetComponent<PlayerHealth>();
+            if (playerHealth != null && playerHealth.IsAlive())
+            {
+                // Berikan damage yang cukup untuk membunuh player
+                playerHealth.ChangeHealth(-playerHealth.maxHealth);
+            }
         }
     }
     
@@ -54,65 +78,107 @@ public class respawn : MonoBehaviour
         Debug.Log("Checkpoint updated to: " + checkpointPos);
     }
     
-    // Method untuk mendeteksi collision dengan objek mematikan
+    // Method untuk mendeteksi collision dengan objek berbahaya (hanya untuk damage, bukan instant death)
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Cek jika collide dengan objek di death layer
-        if (((1 << other.gameObject.layer) & deathLayer) != 0 && !isDead)
-        {
-            Die();
-        }
+        if (isDead) return;
         
-        // Atau cek berdasarkan tag
-        if (other.CompareTag("DeathZone") || other.CompareTag("Enemy") || other.CompareTag("Spikes"))
+        PlayerHealth playerHealth = GetComponent<PlayerHealth>();
+        if (playerHealth == null || !playerHealth.IsAlive()) return;
+        
+        int damage = 0;
+        
+        // Hanya berikan damage untuk objek dengan tag khusus, BUKAN untuk Ground atau Default
+        // Hapus semua referensi tag yang belum terdefinisi untuk mencegah error
+        // if (other.CompareTag("Spikes"))
+        // {
+        //     damage = 3; // Damage dari spikes
+        // }
+        // Hapus referensi DeathZone karena tag belum terdefinisi
+        // else if (other.CompareTag("DeathZone"))
+        // {
+        //     damage = playerHealth.maxHealth; // Instant death untuk death zone
+        // }
+        // Hapus referensi tag yang tidak terdefinisi untuk mencegah error
+        // JANGAN gunakan death layer detection untuk mencegah ground memberikan damage
+        
+        // Berikan damage jika ada
+        if (damage > 0)
         {
-            Die();
+            playerHealth.ChangeHealth(-damage);
+            Debug.Log("Player took " + damage + " damage from " + other.name);
         }
     }
     
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Cek collision dengan objek mematikan
-        if (((1 << collision.gameObject.layer) & deathLayer) != 0 && !isDead)
-        {
-            Die();
-        }
+        if (isDead) return;
         
-        if (collision.gameObject.CompareTag("DeathZone") || collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Spikes"))
+        PlayerHealth playerHealth = GetComponent<PlayerHealth>();
+        if (playerHealth == null || !playerHealth.IsAlive()) return;
+        
+        int damage = 0;
+        
+        // Hanya berikan damage untuk objek dengan tag khusus, BUKAN untuk Ground atau Default
+        // Hapus semua referensi tag yang belum terdefinisi untuk mencegah error
+        // if (collision.gameObject.CompareTag("Spikes"))
+        // {
+        //     damage = 3; // Damage dari spikes
+        // }
+        // Hapus referensi DeathZone karena tag belum terdefinisi
+        // else if (collision.gameObject.CompareTag("DeathZone"))
+        // {
+        //     damage = playerHealth.maxHealth; // Instant death untuk death zone
+        // }
+        // Hapus referensi tag yang tidak terdefinisi untuk mencegah error
+        // JANGAN gunakan death layer detection untuk mencegah ground memberikan damage
+        
+        // Berikan damage jika ada
+        if (damage > 0)
         {
-            Die();
+            playerHealth.ChangeHealth(-damage);
+            Debug.Log("Player took " + damage + " damage from " + collision.gameObject.name);
         }
     }
 
-    void Die()
+    // Method ini dipanggil dari PlayerHealth ketika player mati
+    public void Die()
     {
         if (isDead) return; // Prevent multiple deaths
         
         isDead = true;
-        Debug.Log("Player died! Respawning...");
         
-        // Stop player movement
-        if (rb != null)
+        // Cek apakah masih ada respawn tersisa
+        if (currentRespawns < maxRespawns)
         {
-            rb.velocity = Vector2.zero;
-            rb.isKinematic = true;
+            currentRespawns++;
+            GameStats.RecordDeath();
+            GameStats.RecordRespawn();
+            Debug.Log($"Player died! Respawning... ({currentRespawns}/{maxRespawns})");
+            
+            // Stop player movement
+            if (rb != null)
+            {
+                rb.velocity = Vector2.zero;
+                rb.isKinematic = true;
+            }
+            
+            // Play death effect
+            if (deathEffect != null)
+            {
+                Instantiate(deathEffect, transform.position, Quaternion.identity);
+            }
+            
+            // Start respawn coroutine
+            StartCoroutine(RespawnCoroutine());
         }
-        
-        // Disable player controls (jika ada script movement)
-        var playerMovement = GetComponent<MonoBehaviour>();
-        if (playerMovement != null)
+        else
         {
-            playerMovement.enabled = false;
+            // Game Over - tidak ada respawn lagi
+            GameStats.RecordDeath();
+            Debug.Log("No more respawns left! Game Over!");
+            GameOver();
         }
-        
-        // Play death effect
-        if (deathEffect != null)
-        {
-            Instantiate(deathEffect, transform.position, Quaternion.identity);
-        }
-        
-        // Start respawn coroutine
-        StartCoroutine(RespawnCoroutine());
     }
     
     private IEnumerator RespawnCoroutine()
@@ -136,11 +202,11 @@ public class respawn : MonoBehaviour
             rb.isKinematic = false;
         }
         
-        // Re-enable player controls
-        var playerMovement = GetComponent<MonoBehaviour>();
-        if (playerMovement != null)
+        // Reset health dan re-enable player controls
+        PlayerHealth playerHealth = GetComponent<PlayerHealth>();
+        if (playerHealth != null)
         {
-            playerMovement.enabled = true;
+            playerHealth.ResetHealth();
         }
         
         // Play respawn effect
@@ -152,7 +218,73 @@ public class respawn : MonoBehaviour
         // Reset death state
         isDead = false;
         
-        Debug.Log("Player respawned at: " + checkpointPos);
+        Debug.Log($"Player respawned at checkpoint: {checkpointPos}. Respawns used: {currentRespawns}/{maxRespawns}");
+    }
+    
+    private void GameOver()
+    {
+        // Stop all player movement
+        if (rb != null)
+        {
+            rb.velocity = Vector2.zero;
+            rb.isKinematic = true;
+        }
+        
+        // Disable player controls permanently
+        PlayerHealth playerHealth = GetComponent<PlayerHealth>();
+        if (playerHealth != null)
+        {
+            playerHealth.enabled = false;
+        }
+        
+        PlayerMovement playerMovement = GetComponent<PlayerMovement>();
+        if (playerMovement != null)
+        {
+            playerMovement.enabled = false;
+        }
+        
+        // Show Game Over UI
+        if (gameOverUI != null)
+        {
+            gameOverUI.SetActive(true);
+        }
+        
+        // Play death effect
+        if (deathEffect != null)
+        {
+            Instantiate(deathEffect, transform.position, Quaternion.identity);
+        }
+        
+        Debug.Log("=== GAME OVER ===");
+        
+        // Pindah ke scene Game Over setelah delay
+        StartCoroutine(LoadGameOverScene());
+    }
+    
+    private IEnumerator LoadGameOverScene()
+    {
+        yield return new WaitForSeconds(gameOverDelay);
+        
+        // Force set scene name again just to be absolutely sure
+        gameOverSceneName = "EndGame";
+        
+        // Load scene Game Over menggunakan SceneManagement yang sudah ada
+        Debug.Log("=== LOADING GAME OVER SCENE ===");
+        Debug.Log("Scene Name: " + gameOverSceneName);
+        Debug.Log("SceneManager exists: " + (sceneManager != null));
+        
+        if (sceneManager != null)
+        {
+            Debug.Log("Using SceneManagement.GantiScene() method");
+            sceneManager.GantiScene(gameOverSceneName);
+        }
+        else
+        {
+            // Fallback jika SceneManagement tidak ditemukan
+            Debug.LogWarning("SceneManagement not found! Using fallback method.");
+            Debug.Log("Using UnityEngine.SceneManagement.SceneManager.LoadScene()");
+            UnityEngine.SceneManagement.SceneManager.LoadScene(gameOverSceneName);
+        }
     }
     
     // Public method untuk respawn manual (bisa dipanggil dari script lain)
@@ -168,5 +300,44 @@ public class respawn : MonoBehaviour
     public void ResetCheckpointToStart()
     {
         checkpointPos = transform.position;
+    }
+    
+    // Public methods untuk UI atau debugging
+    public int GetRemainingRespawns()
+    {
+        return maxRespawns - currentRespawns;
+    }
+    
+    public int GetUsedRespawns()
+    {
+        return currentRespawns;
+    }
+    
+    public bool CanRespawn()
+    {
+        return currentRespawns < maxRespawns;
+    }
+    
+    // Method untuk reset respawn count (misalnya saat mencapai checkpoint baru)
+    public void ResetRespawnCount()
+    {
+        currentRespawns = 0;
+        Debug.Log("Respawn count reset! Full respawns available again.");
+    }
+    
+    // Method untuk menambah max respawns (power-up, dll)
+    public void AddRespawn(int amount = 1)
+    {
+        maxRespawns += amount;
+        Debug.Log($"Respawn limit increased! New limit: {maxRespawns}");
+    }
+    
+    // Debug helper untuk cek nilai di Inspector
+    void OnValidate()
+    {
+        // Method ini dipanggil saat nilai di Inspector berubah
+        // Force set ke EndGame selalu
+        gameOverSceneName = "EndGame";
+        Debug.Log($"OnValidate: Game Over Scene Name forced to: {gameOverSceneName}");
     }
 }
