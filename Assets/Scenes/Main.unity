@@ -16408,12 +16408,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abcc7f0fdf60ccb42a660bdc4c8ed07e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< Updated upstream
-  playerHealth: {fileID: 0}
-  emptyHeart: {fileID: 1576131472, guid: 8c36043505155b24b872deaf597c052f, type: 3}
-  fullHeart: {fileID: -1928006548, guid: 4ea681e1740ede942b24583756e00e8a, type: 3}
-  hearts: []
-=======
   playerHealth: {fileID: 1187501388}
   emptyHeart: {fileID: 1268778365, guid: 8c36043505155b24b872deaf597c052f, type: 3}
   fullHeart: {fileID: -449970564, guid: 4ea681e1740ede942b24583756e00e8a, type: 3}
@@ -16428,7 +16422,6 @@ MonoBehaviour:
   - {fileID: 516600060}
   - {fileID: 1014297887}
   - {fileID: 1071230398}
->>>>>>> Stashed changes
 --- !u!1 &1209811482
 GameObject:
   m_ObjectHideFlags: 0
