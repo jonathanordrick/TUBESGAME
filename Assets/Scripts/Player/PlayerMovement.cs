@@ -15,8 +15,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundLayer;
     public int maxJumps = 2;
     private int jumpCount = 0;
-
-private bool isGrounded;
+    private bool isGrounded;
     private bool jumpPressed = false;
 
     void Update()
@@ -45,8 +44,8 @@ private bool isGrounded;
             jumpPressed = true;
         }
 
-        // Serangan
-        if (Input.GetButtonDown("Attack"))
+        // Serangan hanya jika tidak sedang menyerang
+        if (Input.GetButtonDown("Attack") && !playerAttack.isAttacking)
         {
             playerAttack.Attack();
         }

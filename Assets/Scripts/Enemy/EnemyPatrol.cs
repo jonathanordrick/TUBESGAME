@@ -36,17 +36,15 @@ public class EnemyPatrol : MonoBehaviour
         }
     }
 
-    private void OnDisable()
-    {
-        anim.SetBool("Moving", false);
-    }
-
     private void Update()
     {
+        // Hentikan patrol jika GameObject tidak aktif
+        if (!gameObject.activeInHierarchy) return;
+
         // Cek apakah player terdeteksi oleh MeleeEnemy
         if (meleeEnemy != null && meleeEnemy.PlayerInSight())
         {
-            anim.SetBool("Moving", false); // Hentikan moving jika player terdeteksi
+            if (anim != null) anim.SetBool("Moving", false); // Hentikan moving jika player terdeteksi
             return; // Keluar dari Update untuk menghentikan patrol
         }
 
@@ -76,7 +74,7 @@ public class EnemyPatrol : MonoBehaviour
 
     private void DirectionChange()
     {
-        anim.SetBool("Moving", false);
+        if (anim != null) anim.SetBool("Moving", false); // Tambah pengecekan null
         idleTimer += Time.deltaTime;
 
         if (idleTimer > idleDuration)
@@ -89,7 +87,7 @@ public class EnemyPatrol : MonoBehaviour
     private void MoveInDirection(int _direction)
     {
         idleTimer = 0;
-        anim.SetBool("Moving", true);
+        if (anim != null) anim.SetBool("Moving", true); // Tambah pengecekan null
 
         // Pastikan arah gerak sesuai dengan skala
         enemy.localScale = new Vector3(Mathf.Abs(initScale.x) * -_direction, initScale.y, initScale.z); // Invert _direction
