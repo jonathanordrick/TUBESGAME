@@ -1076,6 +1076,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 2
   maxHealth: 2
+  deathAnimationDuration: 1
+  hurtAnimationDuration: 0.5
 --- !u!4 &321792530 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2268576101640265190, guid: 8ac5a19ba03d469428bb5cfde2508175, type: 3}
@@ -58198,6 +58200,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 2
   maxHealth: 2
+  deathAnimationDuration: 1
+  hurtAnimationDuration: 0.5
 --- !u!1 &1628987098
 GameObject:
   m_ObjectHideFlags: 0
@@ -58688,6 +58692,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 2
   maxHealth: 2
+  deathAnimationDuration: 1
+  hurtAnimationDuration: 0.5
 --- !u!50 &1759851437
 Rigidbody2D:
   serializedVersion: 4
@@ -58856,6 +58862,10 @@ PrefabInstance:
     - target: {fileID: 1148580398829475989, guid: 8ac5a19ba03d469428bb5cfde2508175, type: 3}
       propertyPath: m_Name
       value: Babi1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1148580398829475989, guid: 8ac5a19ba03d469428bb5cfde2508175, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 2268576101640265190, guid: 8ac5a19ba03d469428bb5cfde2508175, type: 3}
       propertyPath: m_LocalScale.x
