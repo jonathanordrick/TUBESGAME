@@ -43,7 +43,7 @@ public class RangeEnemy : MonoBehaviour
         if (anim == null || boxCollider == null) return;
 
         cooldownTimer += Time.deltaTime;
-        Debug.Log("Update: cooldownTimer = " + cooldownTimer + ", isAttacking = " + isAttacking + ", PlayerInSight = " + PlayerInSight());
+        Debug.Log("Update: cooldownTimer = " + cooldownTimer + ", isAttacking = " + isAttacking + ", PlayerInSight = " + PlayerInSight() + ", anim state: " + anim.GetCurrentAnimatorStateInfo(0).IsName("throw"));
 
         if (PlayerInSight())
         {
@@ -69,6 +69,12 @@ public class RangeEnemy : MonoBehaviour
         if (isAttacking && anim.GetCurrentAnimatorStateInfo(0).IsName("throw") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.5f) // Sesuaikan dengan durasi animasi
         {
             EndAttack();
+        }
+        // Fallback tambahan jika animasi tidak dimulai
+        if (isAttacking && !anim.GetCurrentAnimatorStateInfo(0).IsName("throw") && cooldownTimer >= 2f) // Reset setelah 2 detik jika animasi gagal
+        {
+            EndAttack();
+            Debug.LogWarning("Fallback: Reset isAttacking karena animasi throw tidak dimulai pada " + gameObject.name);
         }
     }
 
