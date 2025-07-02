@@ -11,19 +11,11 @@ public class MeleeEnemy : MonoBehaviour
     [SerializeField] private BoxCollider2D boxCollider;
     [SerializeField] private LayerMask playerLayer;
     private float cooldownTimer = Mathf.Infinity;
+    private bool isAttacking = false; // Flag untuk mencegah MeleeAttack berulang
 
     private Animator anim;
     private PlayerHealth playerHealth;
     private EnemyPatrol enemyPatrol;
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (PlayerInSight())
-        {
-            collision.collider.GetComponent<PlayerHealth>().ChangeHealth(-damage);
-            anim.SetTrigger("MeleeAttack");
-        }
-    }
 
     private void Awake()
     {
@@ -42,7 +34,7 @@ public class MeleeEnemy : MonoBehaviour
     {
         cooldownTimer += Time.deltaTime;
 
-        if (PlayerInSight())
+        if (PlayerInSight() && !isAttacking)
         {
             if (cooldownTimer >= attackCooldown)
             {
@@ -50,8 +42,14 @@ public class MeleeEnemy : MonoBehaviour
                 anim.SetBool("Moving", false); // Stop animasi jalan dulu
                 anim.ResetTrigger("MeleeAttack"); // Hindari trigger dobel
                 anim.SetTrigger("MeleeAttack");
+                isAttacking = true; // Set flag saat menyerang
             }
         }
+        else
+        {
+            isAttacking = false; // Reset flag saat tidak dalam jangkauan
+        }
+
         if (enemyPatrol != null)
         {
             enemyPatrol.enabled = !PlayerInSight(); // Aktifkan patrol jika player tidak terdeteksi
@@ -81,6 +79,12 @@ public class MeleeEnemy : MonoBehaviour
         {
             Debug.LogWarning("playerHealth null saat DamagePlayer dipanggil. Periksa PlayerInSight()");
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Kosongkan atau hapus logika ini untuk mencegah kerusakan dari kolisi
+        // Kerusakan hanya dari DamagePlayer di animasi
     }
 
     private void OnDrawGizmos()

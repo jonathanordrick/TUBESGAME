@@ -62,7 +62,7 @@ public class AudioManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // Contoh: hancurkan di scene dengan nama "MainMenu" atau "Credit"
-        if (scene.name == "Main" || scene.name == "Main1" || scene.name == "Main2")
+        if (scene.name == "Main" || scene.name == "Level 2" || scene.name == "Level 3")
         {
             Destroy(gameObject);
         }
