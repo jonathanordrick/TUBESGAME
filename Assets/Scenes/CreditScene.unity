@@ -954,8 +954,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Click to Open The Gate...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
-  m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bab12df837f035e488ecfc0795f8aebd, type: 2}
+  m_sharedMaterial: {fileID: 9187247071826273335, guid: bab12df837f035e488ecfc0795f8aebd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
