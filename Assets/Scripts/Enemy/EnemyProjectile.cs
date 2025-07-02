@@ -22,13 +22,20 @@ public class EnemyProjectile : MonoBehaviour
     }
 
     public void ActivateProjectile(float direction)
-    {
-        lifetime = 0;
-        gameObject.SetActive(true);
-        transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * Mathf.Sign(direction), transform.localScale.y, transform.localScale.z);
-        rb.velocity = new Vector2(speed * direction, 0); // Gerakan awal dengan gravitasi
-        Debug.Log("Bom diaktifkan dengan arah " + direction + " pada " + gameObject.name);
-    }
+{
+    lifetime = 0;
+    gameObject.SetActive(true);
+
+    // Hadap sesuai arah
+    transform.localScale = new Vector3(
+        Mathf.Abs(transform.localScale.x) * Mathf.Sign(direction), 
+        transform.localScale.y, 
+        transform.localScale.z
+    );
+
+    rb.velocity = new Vector2(speed * Mathf.Sign(direction), 0);
+    Debug.Log("Bom diaktifkan ke arah " + direction);
+}
 
     void Update()
     {
@@ -67,21 +74,40 @@ public class EnemyProjectile : MonoBehaviour
     }
 
     private void Explode()
+{
+    if (anim != null)
     {
-        if (anim != null)
-        {
-            anim.SetTrigger("Explode");
-            Debug.Log("Animasi Explode dipicu pada " + gameObject.name);
-        }
-        capsuleCollider = GetComponent<CapsuleCollider2D>();
-        if (capsuleCollider != null) capsuleCollider.enabled = false;
-        rb.velocity = Vector2.zero; // Hentikan gerakan
-        Invoke("Deactivate", 0.5f);
+        anim.SetTrigger("Explode");
+        Debug.Log("Animasi Explode dipicu pada " + gameObject.name);
     }
 
+    // Nonaktifkan collider agar tidak memicu tabrakan lagi
+    if (capsuleCollider == null)
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
+    if (capsuleCollider != null)
+        capsuleCollider.enabled = false;
+
+    // Hentikan gerakan
+    rb.velocity = Vector2.zero;
+
+    // 🛑 Matikan pengaruh gravitasi dan physics
+    rb.gravityScale = 0;
+    rb.isKinematic = true;  // agar physics system berhenti memprosesnya
+
+    // Nonaktifkan setelah ledakan
+    Invoke("Deactivate", 0.5f);
+}
+
     private void Deactivate()
-    {
-        gameObject.SetActive(false);
-        Debug.Log("Bom dinonaktifkan setelah ledakan pada " + gameObject.name);
-    }
+{
+    // Reset agar bisa digunakan lagi
+    if (capsuleCollider != null)
+        capsuleCollider.enabled = true;
+
+    rb.gravityScale = 0.5f; // atau nilai default kamu
+    rb.isKinematic = false;
+
+    gameObject.SetActive(false);
+    Debug.Log("Bom dinonaktifkan setelah ledakan pada " + gameObject.name);
+}
 }
