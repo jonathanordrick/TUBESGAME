@@ -17476,6 +17476,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   maxJumps: 2
+  isHurting: 0
 --- !u!50 &1187501382
 Rigidbody2D:
   serializedVersion: 4
@@ -17647,7 +17648,8 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  damage: 1
+  damage: 2
+  playerMovement: {fileID: 1187501381}
 --- !u!114 &1187501388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17661,10 +17663,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
-  currentHealth: 0
+  currentHealth: 10
   maxLives: 2
   respawnDelay: 1
   endGameSceneName: EndGame
+  hurtDuration: 1
 --- !u!114 &1187501389
 MonoBehaviour:
   m_ObjectHideFlags: 0

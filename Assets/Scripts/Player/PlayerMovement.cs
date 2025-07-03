@@ -17,12 +17,7 @@ public class PlayerMovement : MonoBehaviour
     private int jumpCount = 0;
     private bool isGrounded;
     private bool jumpPressed = false;
-    public float defaultSpeed;
-
-    void Start()
-    {
-        defaultSpeed = speed;
-    }
+    public bool isHurting = false;
 
     void Update()
     {
@@ -31,7 +26,6 @@ public class PlayerMovement : MonoBehaviour
         // Cek apakah menyentuh tanah
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         anim.SetBool("Grounded", !isGrounded);
-        // Reset jumlah lompatan saat menyentuh tanah
         if (isGrounded)
         {
             jumpCount = 0;
@@ -50,10 +44,15 @@ public class PlayerMovement : MonoBehaviour
             jumpPressed = true;
         }
 
-        // Serangan hanya jika tidak sedang menyerang
-        if (Input.GetButtonDown("Attack") && !playerAttack.isAttacking)
+        // Serangan
+        if (Input.GetButtonDown("Attack"))
         {
-            playerAttack.Attack();
+            Debug.Log("Input Attack terdeteksi! isAttacking = " + (playerAttack != null ? playerAttack.isAttacking.ToString() : "null") + ", isHurting = " + isHurting);
+            if (!playerAttack.isAttacking && !isHurting)
+            {
+                Debug.Log("Tombol Attack ditekan! Memanggil playerAttack.Attack()");
+                playerAttack.Attack();
+            }
         }
 
         // Animasi jalan
@@ -70,15 +69,12 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         float horizontal = Input.GetAxis("Horizontal");
-
-        // Gerak horizontal
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
 
-        // Eksekusi loncat
         if (jumpPressed)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            jumpPressed = false; // reset
+            jumpPressed = false;
         }
     }
 
@@ -101,4 +97,3 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 }
-

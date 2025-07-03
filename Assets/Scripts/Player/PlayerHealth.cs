@@ -1,29 +1,31 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class PlayerHealth : MonoBehaviour
 {
     [Header("Health Settings")]
     public int maxHealth = 10;
-    public int currentHealth; // was private
+    public int currentHealth;
 
     [Header("Lives Settings")]
-    public int maxLives = 2; // Kesempatan hidup
+    public int maxLives = 2;
     private int currentLives;
 
     [Header("Respawn Settings")]
     public float respawnDelay = 1f;
     public string endGameSceneName = "EndGame";
+    public float hurtDuration = 1f; // Sesuaikan dengan durasi animasi Hurt
 
     private Animator anim;
     private bool isDead;
-    private RespawnSystem playerRespawn; // Perbarui referensi ke RespawnSystem
+    private RespawnSystem playerRespawn;
     private PlayerMovement playerMovement;
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
-        playerRespawn = GetComponent<RespawnSystem>(); // Perbarui referensi ke RespawnSystem
+        playerRespawn = GetComponent<RespawnSystem>();
         playerMovement = GetComponent<PlayerMovement>();
 
         if (playerRespawn == null)
@@ -47,32 +49,39 @@ public class PlayerHealth : MonoBehaviour
 
         if (currentHealth > 0)
         {
-            // Hurt animation
             anim.SetTrigger("hurt");
+            playerMovement.isHurting = true;
+            anim.SetBool("IsHurting", true);
+            StartCoroutine(ResetHurt());
+            Debug.Log("Pemain terluka, isHurting = true");
         }
         else
         {
-            // Player mati
             isDead = true;
             currentLives--;
             Debug.Log($"Player died! Lives remaining: {currentLives}");
 
             if (currentLives <= 0)
             {
-                // Game Over
                 Debug.Log("Game Over! Loading EndGame scene...");
                 SceneManager.LoadScene(endGameSceneName);
             }
             else
             {
-                // Respawn sequence
                 anim.SetTrigger("die");
                 if (playerMovement != null) playerMovement.enabled = false;
-
-                // Delay dan respawn
                 Invoke(nameof(PerformRespawn), respawnDelay);
             }
         }
+    }
+
+    private IEnumerator ResetHurt()
+    {
+        Debug.Log($"Mulai ResetHurt, durasi: {hurtDuration}");
+        yield return new WaitForSeconds(hurtDuration);
+        playerMovement.isHurting = false;
+        anim.SetBool("IsHurting", false);
+        Debug.Log("Hurt selesai, isHurting = false");
     }
 
     public void PerformRespawn()
@@ -84,22 +93,20 @@ public class PlayerHealth : MonoBehaviour
             return;
         }
 
-        // Teleport ke checkpoint
         if (playerRespawn != null)
             playerRespawn.RespawnPlayer();
 
-        // Reset health dan state
         currentHealth = maxHealth;
         isDead = false;
+        playerMovement.isHurting = false;
+        anim.SetBool("IsHurting", false);
 
-        // Enable movement
         if (playerMovement != null)
             playerMovement.enabled = true;
 
         Debug.Log("Player respawned at checkpoint with full health");
     }
 
-    // Public methods untuk UI dan debugging
     public int GetCurrentLives()
     {
         return currentLives;
