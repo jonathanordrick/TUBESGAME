@@ -70,6 +70,7 @@ public class PlayerHealth : MonoBehaviour
             {
                 anim.SetTrigger("die");
                 if (playerMovement != null) playerMovement.enabled = false;
+
                 Invoke(nameof(PerformRespawn), respawnDelay);
             }
         }
@@ -100,6 +101,9 @@ public class PlayerHealth : MonoBehaviour
         isDead = false;
         playerMovement.isHurting = false;
         anim.SetBool("IsHurting", false);
+        anim.ResetTrigger("die"); // Tambahan untuk reset trigger die
+        anim.SetBool("IsDead", false); // Tambahan jika ada parameter IsDead
+        anim.Play("Idle"); // Paksa ke state Idle
 
         if (playerMovement != null)
             playerMovement.enabled = true;

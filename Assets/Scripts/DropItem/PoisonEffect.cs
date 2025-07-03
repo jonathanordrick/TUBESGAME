@@ -3,31 +3,35 @@ using UnityEngine;
 
 public class PoisonEffect : MonoBehaviour
 {
-    public float slowDuration = 3f; // Lama efek racun
-    public float slowAmount = 0.5f; // Persentase pelambatan (0.5 = 50%)
+    public float speedBoostDuration = 3f; // Lama efek percepatan
+    public float speedBoostAmount = 1.5f; // Persentase percepatan (1.5 = 150%)
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
             PlayerMovement movement = other.GetComponent<PlayerMovement>();
-            if (movement != null)
+            if (movement != null && !movement.IsUnderSpeedEffect()) // Cek apakah pemain sudah terkena efek
             {
-                StartCoroutine(ApplyPoison(movement));
+                StartCoroutine(ApplySpeedBoost(movement));
             }
 
-            Destroy(gameObject); // Hancurkan objek racun setelah diambil
+            Destroy(gameObject); // Hancurkan objek setelah diambil
         }
     }
 
-    IEnumerator ApplyPoison(PlayerMovement movement)
+    IEnumerator ApplySpeedBoost(PlayerMovement movement)
     {
+        Debug.Log($"Applying speed boost. Original speed: {movement.speed}");
         float originalSpeed = movement.speed;
 
-        movement.speed *= slowAmount; // Percepat atau perlambat
+        movement.SetSpeedEffect(true); // Tandai bahwa pemain sedang terkena efek
+        movement.speed *= speedBoostAmount; // Tingkatkan kecepatan
 
-        yield return new WaitForSeconds(slowDuration);
+        yield return new WaitForSeconds(speedBoostDuration);
 
-        movement.speed = originalSpeed; // Kembalikan ke normal
+        movement.speed = originalSpeed; // Kembalikan ke kecepatan asli
+        movement.SetSpeedEffect(false); // Tandai bahwa efek selesai
+        Debug.Log($"Speed boost ended. Restored speed: {movement.speed}");
     }
 }

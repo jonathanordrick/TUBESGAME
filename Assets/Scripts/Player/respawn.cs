@@ -18,6 +18,7 @@ public class RespawnSystem : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerMovement playerMovement;
     private Collider2D playerCollider;
+    private Animator anim; // Tambahan untuk mengatur Animator
 
     void Start()
     {
@@ -25,6 +26,7 @@ public class RespawnSystem : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerMovement = GetComponent<PlayerMovement>();
         playerCollider = GetComponent<Collider2D>();
+        anim = GetComponent<Animator>(); // Tambahan untuk Animator
         currentLives = maxLives;
         currentHealth = maxHealth;
         isDead = false;
@@ -88,6 +90,15 @@ public class RespawnSystem : MonoBehaviour
         if (rb != null) rb.velocity = Vector2.zero;
         if (playerMovement != null) playerMovement.enabled = true;
         if (playerCollider != null) playerCollider.enabled = true;
+        if (anim != null)
+        {
+            anim.ResetTrigger("die"); // Reset trigger die
+            anim.SetBool("IsDead", false); // Reset parameter IsDead jika ada
+            anim.SetBool("IsHurting", false); // Reset parameter IsHurting
+            anim.SetBool("IsAttacking", false); // Reset parameter IsAttacking
+            anim.Play("Idle"); // Paksa ke state Idle
+            Debug.Log("Animator reset to Idle after respawn at checkpoint");
+        }
         Debug.Log("Player respawned at " + checkpointPos);
     }
 }

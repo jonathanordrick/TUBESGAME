@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ed63fb60d114c54180bc49c84533b7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buffDuration: 3
+  buffDuration: 5
   bonusDamage: 2
 --- !u!50 &-6358077083072637271
 Rigidbody2D:

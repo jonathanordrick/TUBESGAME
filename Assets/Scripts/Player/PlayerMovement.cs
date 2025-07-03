@@ -18,6 +18,17 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded;
     private bool jumpPressed = false;
     public bool isHurting = false;
+    private bool isUnderSpeedEffect = false; // Menandakan apakah sedang terkena efek percepatan
+
+    public bool IsUnderSpeedEffect()
+    {
+        return isUnderSpeedEffect;
+    }
+
+    public void SetSpeedEffect(bool state)
+    {
+        isUnderSpeedEffect = state;
+    }
 
     void Update()
     {
@@ -38,12 +49,6 @@ public class PlayerMovement : MonoBehaviour
             jumpCount++;
         }
 
-        // Input loncat hanya jika menyentuh tanah
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-        {
-            jumpPressed = true;
-        }
-
         // Serangan
         if (Input.GetButtonDown("Attack"))
         {
@@ -58,9 +63,11 @@ public class PlayerMovement : MonoBehaviour
         // Animasi jalan
         anim.SetFloat("Horizontal", Mathf.Abs(horizontal));
 
+        
         // Flip arah
         if (horizontal > 0 && transform.localScale.x < 0 ||
             horizontal < 0 && transform.localScale.x > 0)
+            
         {
             Flip();
         }

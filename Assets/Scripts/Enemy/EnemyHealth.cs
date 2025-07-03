@@ -10,15 +10,21 @@ public class EnemyHealth : MonoBehaviour
     public float hurtAnimationDuration = 0.5f; // Durasi animasi hurt
     private Animator anim;
     private bool isHurtAnimating = false; // Flag untuk mencegah hurt berulang
+    private EnemyMovement enemyMovement; // Referensi ke EnemyMovement
 
     private void Start()
     {
         currentHealth = maxHealth;
         gameObject.SetActive(true);
         anim = GetComponent<Animator>();
+        enemyMovement = GetComponent<EnemyMovement>(); // Ambil komponen EnemyMovement
         if (anim == null)
         {
             Debug.LogError("Animator tidak ditemukan pada musuh: " + gameObject.name);
+        }
+        if (enemyMovement == null)
+        {
+            Debug.LogError("EnemyMovement tidak ditemukan pada musuh: " + gameObject.name);
         }
     }
 
@@ -52,6 +58,10 @@ public class EnemyHealth : MonoBehaviour
             anim.SetBool("Moving", false);
             anim.SetTrigger("Die");
             Debug.Log("Memainkan animasi Die pada musuh: " + gameObject.name);
+        }
+        if (enemyMovement != null)
+        {
+            enemyMovement.Die(); // Panggil Die() di EnemyMovement untuk menghentikan pergerakan
         }
         StartCoroutine(DisableAfterDeath());
     }

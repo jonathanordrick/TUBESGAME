@@ -11,6 +11,7 @@ public class EnemyMovement : MonoBehaviour
     private Transform player;
     private Animator anim;
     private MeleeEnemy meleeEnemy; // Referensi ke MeleeEnemy
+    private bool isDead = false; // Tambahan untuk melacak status kematian
 
     void Start()
     {
@@ -18,15 +19,31 @@ public class EnemyMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         meleeEnemy = GetComponent<MeleeEnemy>(); // Ambil komponen MeleeEnemy
-        if (rb == null || anim == null || meleeEnemy == null)
+        if (rb == null || anim == null)
         {
-            Debug.LogError("Rigidbody2D, Animator, atau MeleeEnemy tidak ditemukan!");
+            Debug.LogError("Rigidbody2D atau Animator tidak ditemukan!");
         }
-        meleeEnemy.enabled = false; // Matikan MeleeEnemy secara default
+        if (meleeEnemy == null)
+        {
+            Debug.LogWarning("MeleeEnemy tidak ditemukan, beberapa fungsi mungkin tidak berfungsi!");
+        }
+        else
+        {
+            meleeEnemy.enabled = false; // Matikan MeleeEnemy secara default
+        }
     }
 
     void FixedUpdate()
     {
+        if (isDead)
+        {
+            // Hentikan semua pergerakan saat musuh mati
+            rb.velocity = Vector2.zero;
+            anim.SetBool("Moving", false);
+            anim.SetBool("Idle", false);
+            return; // Keluar dari FixedUpdate jika musuh mati
+        }
+
         if (isChasing && player != null)
         {
             float distanceToPlayer = Vector2.Distance(transform.position, player.position);
@@ -44,28 +61,28 @@ public class EnemyMovement : MonoBehaviour
                 Vector2 movement = new Vector2(direction.x * speed, rb.velocity.y);
                 rb.velocity = movement;
 
-                anim.SetBool("Moving", true); // Aktifkan animasi berjalan
-                anim.SetBool("Idle", false); // Matikan animasi Idle
+                anim.SetBool("Moving", true);
+                anim.SetBool("Idle", false);
                 ChangeState(EnemyState.Chase);
-                meleeEnemy.enabled = false; // Matikan MeleeEnemy saat mengejar
+                if (meleeEnemy != null) meleeEnemy.enabled = false; // Pengecekan null
             }
             else
             {
                 // Hentikan gerakan dan aktifkan MeleeEnemy untuk serangan
                 rb.velocity = Vector2.zero;
-                anim.SetBool("Moving", false); // Matikan animasi berjalan
+                anim.SetBool("Moving", false);
                 ChangeState(EnemyState.Attack);
-                meleeEnemy.enabled = true; // Aktifkan MeleeEnemy untuk serangan
+                if (meleeEnemy != null) meleeEnemy.enabled = true; // Pengecekan null
             }
         }
         else
         {
             // Kembali ke Idle jika tidak mengejar
             ChangeState(EnemyState.Idle);
-            rb.velocity = new Vector2(0, rb.velocity.y); // Hentikan gerakan horizontal
-            anim.SetBool("Moving", false); // Matikan animasi berjalan
-            anim.SetBool("Idle", true); // Aktifkan animasi Idle
-            meleeEnemy.enabled = false; // Matikan MeleeEnemy saat Idle
+            rb.velocity = new Vector2(0, rb.velocity.y);
+            anim.SetBool("Moving", false);
+            anim.SetBool("Idle", true);
+            if (meleeEnemy != null) meleeEnemy.enabled = false; // Pengecekan null
         }
     }
 
@@ -79,7 +96,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            isChasing = true; // Setel isChasing ke true
+            isChasing = true;
             player = collision.transform;
             ChangeState(EnemyState.Chase);
             Debug.Log("Pemain masuk jangkauan pada " + Time.time + ", mulai mengejar!");
@@ -98,6 +115,13 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
+    public void Die()
+    {
+        isDead = true;
+        anim.SetTrigger("Die");
+        if (meleeEnemy != null) meleeEnemy.enabled = false;
+    }
+
     void ChangeState(EnemyState newState)
     {
         enemyState = newState;
@@ -108,7 +132,7 @@ public class EnemyMovement : MonoBehaviour
         if (player != null)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, attackRange); // Visualisasi jangkauan serangan
+            Gizmos.DrawWireSphere(transform.position, attackRange);
         }
     }
 
