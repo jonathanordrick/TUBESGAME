@@ -17,6 +17,12 @@ public class PlayerMovement : MonoBehaviour
     private int jumpCount = 0;
     private bool isGrounded;
     private bool jumpPressed = false;
+    public float defaultSpeed;
+
+    void Start()
+    {
+        defaultSpeed = speed;
+    }
 
     void Update()
     {
