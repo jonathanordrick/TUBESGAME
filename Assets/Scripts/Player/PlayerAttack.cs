@@ -9,9 +9,8 @@ public class PlayerAttack : MonoBehaviour
     private float attackCooldown = 2f; // Sinkron dengan durasi animasi
     public Transform attackPoint; // Titik serangan, bisa diatur di Inspector
     public float WeaponRange = 0.5f; // Jarak serangan
-    public LayerMask enemyLayer; // Layer musuh
+    public LayerMask enemyLayer; // Layer musuh + box
     public int damage = 1; // Damage yang diberikan
-    
 
     public void Attack()
     {
@@ -19,17 +18,44 @@ public class PlayerAttack : MonoBehaviour
         {
             anim.SetBool("IsAttacking", true);
             isAttacking = true;
+
+            DealDamage(); // ✅ langsung panggil serangan saat tombol ditekan
+
             StartCoroutine(ResetAttack());
-            
         }
     }
-    
+
     public void DealDamage()
     {
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(attackPoint.position, WeaponRange, enemyLayer);
-        if (enemies.Length > 0)
+        Debug.Log("Menyerang...");
+
+        // Deteksi semua objek dalam jangkauan attackPoint
+        Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, WeaponRange, enemyLayer);
+
+        if (hits.Length == 0)
         {
-            enemies[0].GetComponent<EnemyHealth>().ChangeHealth(-damage); // Kurangi health musuh
+            Debug.Log("Tidak ada yang kena.");
+        }
+
+        foreach (Collider2D hit in hits)
+        {
+            Debug.Log("Kena: " + hit.name);
+
+            // Coba serang musuh (Health)
+            Health enemy = hit.GetComponent<Health>();
+            if (enemy != null)
+            {
+                Debug.Log("Musuh terkena!");
+                enemy.TakeDamage(damage);
+            }
+
+            // Coba hancurkan box (BreakableBox)
+            BreakableBox box = hit.GetComponent<BreakableBox>();
+            if (box != null)
+            {
+                Debug.Log("Box terkena!");
+                box.TakeDamage(damage);
+            }
         }
     }
 
@@ -45,7 +71,7 @@ public class PlayerAttack : MonoBehaviour
         if (attackPoint != null)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(attackPoint.position, WeaponRange); // Gambar area serangan
+            Gizmos.DrawWireSphere(attackPoint.position, WeaponRange); // Gambar area serangan di editor
         }
     }
 }
