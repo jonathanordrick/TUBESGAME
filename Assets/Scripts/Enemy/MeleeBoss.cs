@@ -33,7 +33,10 @@ public class MeleeBoss : MonoBehaviour
     {
         cooldownTimer += Time.deltaTime;
 
-        if (PlayerInSight() && !isAttacking && cooldownTimer >= attackCooldown)
+        // Debugging untuk melacak status
+        Debug.Log($"Status: PlayerInSight={PlayerInSight()}, isAttacking={isAttacking}, cooldownTimer={cooldownTimer}, isUsingAttack1={isUsingAttack1}, AnimatorState={anim.GetCurrentAnimatorStateInfo(0).fullPathHash}");
+
+        if (PlayerInSight() && !isAttacking && cooldownTimer >= attackCooldown && !anim.GetBool("IsHurt"))
         {
             cooldownTimer = 0;
             isAttacking = true;
@@ -55,7 +58,7 @@ public class MeleeBoss : MonoBehaviour
 
         if (enemyPatrol != null)
         {
-            enemyPatrol.enabled = !PlayerInSight();
+            enemyPatrol.enabled = !PlayerInSight() && !anim.GetBool("IsHurt");
         }
     }
 
@@ -72,7 +75,7 @@ public class MeleeBoss : MonoBehaviour
         }
         else
         {
-            playerHealth = null; // Reset playerHealth jika tidak ada pemain dalam jangkauan
+            playerHealth = null;
         }
 
         return hit.collider != null;
@@ -96,6 +99,29 @@ public class MeleeBoss : MonoBehaviour
         isAttacking = false;
         isUsingAttack1 = !isUsingAttack1; // Ganti ke serangan berikutnya
         Debug.Log("Mengakhiri serangan, beralih ke " + (isUsingAttack1 ? "MeleeAttack1" : "MeleeAttack2") + " pada " + Time.time);
+    }
+
+    public void OnHurt()
+    {
+        anim.SetBool("IsHurt", true);
+        isAttacking = false; // Reset serangan saat Hurt
+        cooldownTimer = 0; // Reset cooldown ifdef
+        if (enemyPatrol != null)
+        {
+            enemyPatrol.enabled = false; // Hentikan patroli saat Hurt
+        }
+        Debug.Log("Boss terkena Hurt pada " + Time.time);
+    }
+
+    public void EndHurt()
+    {
+        anim.SetBool("IsHurt", false);
+        isAttacking = false;
+        if (enemyPatrol != null)
+        {
+            enemyPatrol.enabled = !PlayerInSight(); // Kembalikan patroli jika perlu
+        }
+        Debug.Log("Animasi Hurt selesai pada " + Time.time);
     }
 
     private void OnDrawGizmos()
