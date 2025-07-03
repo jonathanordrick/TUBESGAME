@@ -777,7 +777,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1398ae5cbeb53bf4dbcf7a86fb72c16f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneAsset: {fileID: 102900000, guid: 8c9cfa26abfee488c85f1582747f6a02, type: 3}
+  sceneAsset: {fileID: 102900000, guid: eeee43e2a06c64c9484c02cb010497ad, type: 3}
 --- !u!61 &481948470
 BoxCollider2D:
   m_ObjectHideFlags: 0
