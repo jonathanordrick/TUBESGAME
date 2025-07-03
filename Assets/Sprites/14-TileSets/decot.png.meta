@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: cb36164d932775340a93b7d7f9080b08
+guid: 6e99ef1740ee8ed459d39ebce4421f35
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 20
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Attack (38x28)_0
+      name: decot_0
       rect:
         serializedVersion: 2
-        x: 10
-        y: 0
-        width: 20
-        height: 19
+        x: 35
+        y: 71
+        width: 26
+        height: 89
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -111,20 +111,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d93ff177e36230a4294712800bf6e463
-      internalID: -542034491
+      spriteID: 8be731bd1a4cef5438818b80fddf3446
+      internalID: -650854479
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack (38x28)_2
+      name: decot_1
       rect:
         serializedVersion: 2
-        x: 76
-        y: 5
-        width: 36
-        height: 23
+        x: 64
+        y: 153
+        width: 128
+        height: 7
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -132,20 +132,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 378845ce8747ed04cb57891bfef77e0e
-      internalID: -1089585732
+      spriteID: cd8b7eb6a11aef442b8594b5508e8a69
+      internalID: 1042757017
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack (38x28)_4
+      name: decot_2
       rect:
         serializedVersion: 2
-        x: 116
-        y: 5
-        width: 34
-        height: 23
+        x: 64
+        y: 113
+        width: 128
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,20 +153,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 412fe478a91e7164c9b19a410e89b750
-      internalID: -1114348494
+      spriteID: 088f105fc9d6c7e499ebf28aa7f4e4e5
+      internalID: -1173878645
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack (38x28)_5
+      name: decot_3
       rect:
         serializedVersion: 2
-        x: 162
-        y: 0
-        width: 20
-        height: 19
+        x: 35
+        y: 39
+        width: 26
+        height: 25
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -174,20 +174,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b338ed3d9a9638641aad52ac5c3c3b43
-      internalID: -1301518538
+      spriteID: c49c90b08762c334ea5c10eba00c884e
+      internalID: -598141256
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack (38x28)_6
+      name: decot_4
       rect:
         serializedVersion: 2
-        x: 48
-        y: 0
-        width: 20
-        height: 18
+        x: 73
+        y: 32
+        width: 55
+        height: 57
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -195,8 +195,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aada67d32b902d246985ba6a55ee511e
-      internalID: 1974109147
+      spriteID: 7b9c4e4f040926c439f87ca546d547c9
+      internalID: -684671480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: decot_5
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 32
+        width: 55
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41650be132f8e284996c8d246b56d5f0
+      internalID: -821560372
       vertices: []
       indices: 
       edges: []
@@ -212,13 +233,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Attack (38x28)_0: -542034491
-      Attack (38x28)_1: -509183954
-      Attack (38x28)_2: -1089585732
-      Attack (38x28)_3: 2066996198
-      Attack (38x28)_4: -1114348494
-      Attack (38x28)_5: -1301518538
-      Attack (38x28)_6: 1974109147
+      decot_0: -650854479
+      decot_1: 1042757017
+      decot_2: -1173878645
+      decot_3: -598141256
+      decot_4: -684671480
+      decot_5: -821560372
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
