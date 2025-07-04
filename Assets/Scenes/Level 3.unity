@@ -257843,7 +257843,7 @@ MonoBehaviour:
   currentHealth: 10
   maxLives: 2
   respawnDelay: 1
-  endGameSceneName: EndGame
+  endGameSceneName: EndGameHard
   hurtDuration: 1
 --- !u!114 &833833295
 MonoBehaviour:
