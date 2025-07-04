@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class PlayerAttack : MonoBehaviour
 {
     public Animator anim;
     public bool isAttacking = false; // Public untuk akses dari PlayerMovement
-    private float attackCooldown = 0.55f; // Sesuaikan dengan durasi animasi Attack (0.3 detik + buffer kecil)
+    private float attackCooldown = 0.55f; // Sesuaikan dengan durasi animasi Attack
     public Transform attackPoint; // Titik serangan, bisa diatur di Inspector
     public float WeaponRange = 0.5f; // Jarak serangan
     public LayerMask enemyLayer; // Layer musuh + box
     public int damage; // Damage yang diberikan
     public PlayerMovement playerMovement; // Referensi ke PlayerMovement
+    public CinemachineImpulseSource impulseSource; // Impulse Source untuk screenshake
 
     public void Attack()
     {
@@ -53,28 +55,33 @@ public class PlayerAttack : MonoBehaviour
                     enemyHealth.ChangeHealth(-damage);
                 }
             }
-        }
 
-        foreach (Collider2D hit in hits)
-        {
-            Debug.Log("Kena: " + hit.name);
-
-            Health enemy = hit.GetComponent<Health>();
-            if (enemy != null)
+            foreach (Collider2D hit in hits)
             {
-                Debug.Log("Musuh terkena (Health)!");
-                enemy.TakeDamage(damage);
+                Debug.Log("Kena: " + hit.name);
+
+                Health enemy = hit.GetComponent<Health>();
+                if (enemy != null)
+                {
+                    Debug.Log("Musuh terkena (Health)!");
+                    enemy.TakeDamage(damage);
+                }
+
+                BreakableBox box = hit.GetComponent<BreakableBox>();
+                if (box != null)
+                {
+                    Debug.Log("Box terkena!");
+                    box.TakeDamage(damage);
+                }
             }
 
-            BreakableBox box = hit.GetComponent<BreakableBox>();
-            if (box != null)
-            {
-                Debug.Log("Box terkena!");
-                box.TakeDamage(damage);
-            }
+            // Tambahkan variasi getaran alami
+            float randomX = Random.Range(-0.2f, 0.2f); // Variasi kecil di sumbu X
+            float randomY = Random.Range(-0.5f, -0.3f); // Getaran ke bawah dengan variasi
+            impulseSource.GenerateImpulse(new Vector3(randomX, randomY, 0));
+            Debug.Log("Screenshake dipicu dengan vektor: " + new Vector3(randomX, randomY, 0));
         }
     }
-
     IEnumerator ResetAttack()
     {
         Debug.Log($"Mulai ResetAttack, menunggu {attackCooldown} detik");
@@ -92,4 +99,7 @@ public class PlayerAttack : MonoBehaviour
             Gizmos.DrawWireSphere(attackPoint.position, WeaponRange);
         }
     }
+
+    // Hapus OnCollisionEnter2D karena tidak lagi dibutuhkan
+    // void OnCollisionEnter2D(Collision2D collision) { ... }
 }

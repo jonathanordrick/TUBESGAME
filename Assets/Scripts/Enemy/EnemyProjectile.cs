@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class EnemyProjectile : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class EnemyProjectile : MonoBehaviour
     private Animator anim;
     private Rigidbody2D rb;
     private CapsuleCollider2D capsuleCollider;
+    public CinemachineImpulseSource impulseSource; // Impulse Source untuk screenshake
 
     private void Awake()
     {
@@ -71,6 +73,12 @@ public class EnemyProjectile : MonoBehaviour
         {
             Explode();
         }
+
+        // Tambahkan variasi getaran alami
+            float randomX = Random.Range(-0.2f, 0.2f); // Variasi kecil di sumbu X
+            float randomY = Random.Range(-0.5f, -0.3f); // Getaran ke bawah dengan variasi
+            impulseSource.GenerateImpulse(new Vector3(randomX, randomY, 0));
+            Debug.Log("Screenshake dipicu dengan vektor: " + new Vector3(randomX, randomY, 0));
     }
 
     private void Explode()

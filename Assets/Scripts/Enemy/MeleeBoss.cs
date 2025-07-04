@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class MeleeBoss : MonoBehaviour
 {
@@ -17,15 +18,17 @@ public class MeleeBoss : MonoBehaviour
     private EnemyPatrol enemyPatrol;
     private bool isUsingAttack1 = true;
 
+    [SerializeField] private CinemachineImpulseSource impulseSource; // Tambahkan ini untuk screenshake
+
     private void Awake()
     {
         anim = GetComponent<Animator>();
         boxCollider = GetComponent<BoxCollider2D>();
         enemyPatrol = GetComponent<EnemyPatrol>();
 
-        if (anim == null || boxCollider == null)
+        if (anim == null || boxCollider == null || impulseSource == null)
         {
-            Debug.LogError("Animator atau BoxCollider2D tidak ditemukan!");
+            Debug.LogError("Animator, BoxCollider2D, atau ImpulseSource tidak ditemukan!");
         }
     }
 
@@ -87,6 +90,15 @@ public class MeleeBoss : MonoBehaviour
         {
             playerHealth.ChangeHealth(-damage);
             Debug.Log("Serangan ke player: " + damage + " damage pada " + Time.time);
+
+            // Memicu screenshake saat pemain terkena damage
+            if (impulseSource != null)
+            {
+                float randomX = Random.Range(-0.2f, 0.2f); // Variasi kecil di sumbu X
+                float randomY = Random.Range(-0.5f, -0.3f); // Getaran ke bawah dengan variasi
+                impulseSource.GenerateImpulse(new Vector3(randomX, randomY, 0));
+                Debug.Log("Screenshake dipicu dengan vektor: " + new Vector3(randomX, randomY, 0));
+            }
         }
         else
         {
@@ -105,7 +117,7 @@ public class MeleeBoss : MonoBehaviour
     {
         anim.SetBool("IsHurt", true);
         isAttacking = false; // Reset serangan saat Hurt
-        cooldownTimer = 0; // Reset cooldown ifdef
+        cooldownTimer = 0; // Reset cooldown
         if (enemyPatrol != null)
         {
             enemyPatrol.enabled = false; // Hentikan patroli saat Hurt
@@ -134,4 +146,4 @@ public class MeleeBoss : MonoBehaviour
             new Vector3(boxCollider.bounds.size.x * range, boxCollider.bounds.size.y, boxCollider.bounds.size.z)
         );
     }
-}
+}   
