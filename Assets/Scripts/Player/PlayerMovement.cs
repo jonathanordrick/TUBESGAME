@@ -67,6 +67,25 @@ public class PlayerMovement : MonoBehaviour
             audioSource = gameObject.AddComponent<AudioSource>();
     }
 
+    private void PlayJumpAudio()
+    {
+        if (jumpClip != null) audioSource.PlayOneShot(jumpClip);
+    }
+    private void PlayWalkAudio()
+    {
+        if (walkClip != null) audioSource.PlayOneShot(walkClip);
+    }
+
+    private void TryPlayWalkAudio(float horizontal)
+    {
+        bool isWalking = Mathf.Abs(horizontal) > 0.1f && isGrounded && !isHurting;
+        if (isWalking && !wasWalking)
+        {
+            PlayWalkAudio();
+        }
+        wasWalking = isWalking;
+    }
+
     void Update()
     {
         float horizontal = Input.GetAxis("Horizontal");
@@ -79,20 +98,13 @@ public class PlayerMovement : MonoBehaviour
             jumpCount = 0;
         }
 
-        // Audio jalan: hanya play saat mulai jalan dari idle
-        bool isWalking = Mathf.Abs(horizontal) > 0.1f && isGrounded && !isHurting;
-        if (isWalking && !wasWalking)
-        {
-            if (walkClip != null) audioSource.PlayOneShot(walkClip);
-        }
-        wasWalking = isWalking;
+        TryPlayWalkAudio(horizontal);
 
-        // Jump: audio langsung saat tombol ditekan
+        // Jump: flag saja, audio di FixedUpdate
         if (Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumps)
         {
             jumpPressed = true;
             jumpCount++;
-            if (jumpClip != null) audioSource.PlayOneShot(jumpClip);
             wasWalking = false; // Reset agar audio jalan tidak overlap
         }
 
@@ -126,6 +138,7 @@ public class PlayerMovement : MonoBehaviour
         if (jumpPressed)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            PlayJumpAudio();
             jumpPressed = false;
         }
     }

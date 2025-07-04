@@ -27,11 +27,16 @@ public class PlayerAttack : MonoBehaviour
         audioSource.loop = false;
     }
 
+    private void PlayAttackAudio()
+    {
+        if (attackClip != null) audioSource.PlayOneShot(attackClip);
+    }
+
     public void Attack()
     {
         if (!isAttacking && !playerMovement.isHurting) // Cek apakah tidak sedang hurt
         {
-            if (attackClip != null) audioSource.PlayOneShot(attackClip);
+            PlayAttackAudio();
             Debug.Log("Attack dimulai! IsAttacking = true, IsHurting = " + playerMovement.isHurting);
             anim.SetBool("IsAttacking", true);
             isAttacking = true;

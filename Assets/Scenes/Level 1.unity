@@ -82644,8 +82644,8 @@ MonoBehaviour:
   respawnDelay: 1
   endGameSceneName: EndGame
   hurtDuration: 1
-  hurtClip: {fileID: 8300000, guid: c9ebb43e38ec345b6a57c5d891bda02b, type: 3}
-  dieClip: {fileID: 8300000, guid: c9ebb43e38ec345b6a57c5d891bda02b, type: 3}
+  hurtClip: {fileID: 8300000, guid: 01014e0043c3a42bf95a3236f94b48fd, type: 3}
+  dieClip: {fileID: 8300000, guid: 01014e0043c3a42bf95a3236f94b48fd, type: 3}
 --- !u!114 &1679824188
 MonoBehaviour:
   m_ObjectHideFlags: 0
