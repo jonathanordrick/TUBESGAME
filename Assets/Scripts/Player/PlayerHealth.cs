@@ -17,6 +17,11 @@ public class PlayerHealth : MonoBehaviour
     public string endGameSceneName = "EndGame";
     public float hurtDuration = 1f; // Sesuaikan dengan durasi animasi Hurt
 
+    [Header("Audio")]
+    public AudioClip hurtClip;
+    public AudioClip dieClip;
+    private AudioSource audioSource;
+
     private Animator anim;
     private bool isDead;
     private RespawnSystem playerRespawn;
@@ -27,6 +32,9 @@ public class PlayerHealth : MonoBehaviour
         anim = GetComponent<Animator>();
         playerRespawn = GetComponent<RespawnSystem>();
         playerMovement = GetComponent<PlayerMovement>();
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
 
         if (playerRespawn == null)
             Debug.LogError("RespawnSystem component not found on Player!");
@@ -52,6 +60,7 @@ public class PlayerHealth : MonoBehaviour
             anim.SetTrigger("hurt");
             playerMovement.isHurting = true;
             anim.SetBool("IsHurting", true);
+            if (hurtClip != null) audioSource.PlayOneShot(hurtClip);
             StartCoroutine(ResetHurt());
             Debug.Log("Pemain terluka, isHurting = true");
         }
@@ -60,7 +69,7 @@ public class PlayerHealth : MonoBehaviour
             isDead = true;
             currentLives--;
             Debug.Log($"Player died! Lives remaining: {currentLives}");
-
+            if (dieClip != null) audioSource.PlayOneShot(dieClip);
             if (currentLives <= 0)
             {
                 Debug.Log("Game Over! Loading EndGame scene...");

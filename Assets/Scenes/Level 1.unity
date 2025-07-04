@@ -1444,7 +1444,7 @@ TilemapRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_ChunkSize: {x: 32, y: 32, z: 32}
-  m_ChunkCullingBounds: {x: 0.4166667, y: 0.4765625, z: 0}
+  m_ChunkCullingBounds: {x: 0.359375, y: 0.4765625, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
@@ -82644,6 +82644,8 @@ MonoBehaviour:
   respawnDelay: 1
   endGameSceneName: EndGame
   hurtDuration: 1
+  hurtClip: {fileID: 8300000, guid: c9ebb43e38ec345b6a57c5d891bda02b, type: 3}
+  dieClip: {fileID: 8300000, guid: c9ebb43e38ec345b6a57c5d891bda02b, type: 3}
 --- !u!114 &1679824188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82666,6 +82668,7 @@ MonoBehaviour:
   damage: 1
   playerMovement: {fileID: 1679824190}
   impulseSource: {fileID: 1679824184}
+  attackClip: {fileID: 8300000, guid: 16a5e00e164417040b01752b694b6aec, type: 3}
 --- !u!95 &1679824189
 Animator:
   serializedVersion: 5
@@ -82712,6 +82715,8 @@ MonoBehaviour:
     m_Bits: 64
   maxJumps: 2
   isHurting: 0
+  jumpClip: {fileID: 8300000, guid: a7f31b32560a245ec9deed33ef61fe3e, type: 3}
+  walkClip: {fileID: 8300000, guid: 7522f79edc226c44d9d35133220b18bd, type: 3}
 --- !u!50 &1679824191
 Rigidbody2D:
   serializedVersion: 4

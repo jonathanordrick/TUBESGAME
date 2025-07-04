@@ -23,6 +23,12 @@ public class PlayerMovement : MonoBehaviour
     private Coroutine speedBoostCoroutine;
     private float originalSpeed;
 
+    [Header("Audio")]
+    public AudioClip jumpClip;
+    public AudioClip walkClip;
+    private AudioSource audioSource;
+    private bool wasWalking = false;
+
     public bool IsUnderSpeedEffect()
     {
         return isUnderSpeedEffect;
@@ -54,6 +60,13 @@ public class PlayerMovement : MonoBehaviour
         speedBoostCoroutine = null;
     }
 
+    void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+    }
+
     void Update()
     {
         float horizontal = Input.GetAxis("Horizontal");
@@ -66,11 +79,21 @@ public class PlayerMovement : MonoBehaviour
             jumpCount = 0;
         }
 
-        // Jika Space ditekan dan masih punya jatah lompatan
+        // Audio jalan: hanya play saat mulai jalan dari idle
+        bool isWalking = Mathf.Abs(horizontal) > 0.1f && isGrounded && !isHurting;
+        if (isWalking && !wasWalking)
+        {
+            if (walkClip != null) audioSource.PlayOneShot(walkClip);
+        }
+        wasWalking = isWalking;
+
+        // Jump: audio langsung saat tombol ditekan
         if (Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumps)
         {
             jumpPressed = true;
             jumpCount++;
+            if (jumpClip != null) audioSource.PlayOneShot(jumpClip);
+            wasWalking = false; // Reset agar audio jalan tidak overlap
         }
 
         // Serangan
@@ -87,11 +110,9 @@ public class PlayerMovement : MonoBehaviour
         // Animasi jalan
         anim.SetFloat("Horizontal", Mathf.Abs(horizontal));
 
-        
         // Flip arah
-        if (horizontal > 0 && transform.localScale.x < 0 ||
-            horizontal < 0 && transform.localScale.x > 0)
-            
+        if ((horizontal > 0 && transform.localScale.x < 0) ||
+            (horizontal < 0 && transform.localScale.x > 0))
         {
             Flip();
         }

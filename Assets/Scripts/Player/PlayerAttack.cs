@@ -15,10 +15,23 @@ public class PlayerAttack : MonoBehaviour
     public PlayerMovement playerMovement; // Referensi ke PlayerMovement
     public CinemachineImpulseSource impulseSource; // Impulse Source untuk screenshake
 
+    [Header("Audio")]
+    public AudioClip attackClip;
+    private AudioSource audioSource;
+
+    void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.loop = false;
+    }
+
     public void Attack()
     {
         if (!isAttacking && !playerMovement.isHurting) // Cek apakah tidak sedang hurt
         {
+            if (attackClip != null) audioSource.PlayOneShot(attackClip);
             Debug.Log("Attack dimulai! IsAttacking = true, IsHurting = " + playerMovement.isHurting);
             anim.SetBool("IsAttacking", true);
             isAttacking = true;
