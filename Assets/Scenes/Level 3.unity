@@ -257996,7 +257996,7 @@ Transform:
   m_GameObject: {fileID: 837411858}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 213.18, y: 7.6, z: 0}
+  m_LocalPosition: {x: -5.52, y: -1.35, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -262973,7 +262973,7 @@ Transform:
   m_GameObject: {fileID: 1030487209}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 201.40984, y: 9.05118, z: -9.973566}
+  m_LocalPosition: {x: -17.290161, y: 0.101180434, z: -9.973566}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -268617,7 +268617,7 @@ Transform:
   m_GameObject: {fileID: 1361900521}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 201.40984, y: 9.05118, z: -9.973566}
+  m_LocalPosition: {x: -17.290161, y: 0.101180434, z: -9.973566}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -327558,7 +327558,7 @@ MonoBehaviour:
   interactionKey: 101
   transitionDelay: 0.5
   interactionPrompt: {fileID: 0}
-  minotaurBoss: {fileID: 0}
+  minotaurBoss: {fileID: 807259564}
 --- !u!1001 &2032917442
 PrefabInstance:
   m_ObjectHideFlags: 0
