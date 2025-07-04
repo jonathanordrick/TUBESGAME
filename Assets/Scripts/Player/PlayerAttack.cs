@@ -26,7 +26,8 @@ public class PlayerAttack : MonoBehaviour
             DealDamage();
 
             StartCoroutine(ResetAttack());
-         else
+        }
+        else
         {
             Debug.Log("Attack diblokir! isAttacking = " + isAttacking + ", isHurting = " + playerMovement.isHurting);
         }
@@ -74,13 +75,11 @@ public class PlayerAttack : MonoBehaviour
                 }
             }
 
-            // Tambahkan variasi getaran alami
-            float randomX = Random.Range(-0.2f, 0.2f); // Variasi kecil di sumbu X
-            float randomY = Random.Range(-0.5f, -0.3f); // Getaran ke bawah dengan variasi
-            impulseSource.GenerateImpulse(new Vector3(randomX, randomY, 0));
-            Debug.Log("Screenshake dipicu dengan vektor: " + new Vector3(randomX, randomY, 0));
+            Debug.Log("Ada yang terkena, memicu screenshake!");
+            impulseSource.GenerateImpulse(); // Memicu screenshake di sini
         }
     }
+
     IEnumerator ResetAttack()
     {
         Debug.Log($"Mulai ResetAttack, menunggu {attackCooldown} detik");
