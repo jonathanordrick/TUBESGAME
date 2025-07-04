@@ -20,6 +20,9 @@ public class PlayerMovement : MonoBehaviour
     public bool isHurting = false;
     private bool isUnderSpeedEffect = false; // Menandakan apakah sedang terkena efek percepatan
 
+    private Coroutine speedBoostCoroutine;
+    private float originalSpeed;
+
     public bool IsUnderSpeedEffect()
     {
         return isUnderSpeedEffect;
@@ -28,6 +31,27 @@ public class PlayerMovement : MonoBehaviour
     public void SetSpeedEffect(bool state)
     {
         isUnderSpeedEffect = state;
+    }
+
+    public void ApplyOrRefreshSpeedBoost(float boostAmount, float duration)
+    {
+        if (speedBoostCoroutine != null)
+        {
+            StopCoroutine(speedBoostCoroutine);
+            speed = originalSpeed; // Kembalikan ke kecepatan asli sebelum refresh
+        }
+        speedBoostCoroutine = StartCoroutine(SpeedBoostRoutine(boostAmount, duration));
+    }
+
+    private IEnumerator SpeedBoostRoutine(float boostAmount, float duration)
+    {
+        SetSpeedEffect(true);
+        originalSpeed = speed;
+        speed = originalSpeed * boostAmount;
+        yield return new WaitForSeconds(duration);
+        speed = originalSpeed;
+        SetSpeedEffect(false);
+        speedBoostCoroutine = null;
     }
 
     void Update()
