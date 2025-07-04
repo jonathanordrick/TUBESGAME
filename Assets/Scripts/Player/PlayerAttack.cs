@@ -26,8 +26,7 @@ public class PlayerAttack : MonoBehaviour
             DealDamage();
 
             StartCoroutine(ResetAttack());
-        }
-        else
+         else
         {
             Debug.Log("Attack diblokir! isAttacking = " + isAttacking + ", isHurting = " + playerMovement.isHurting);
         }
