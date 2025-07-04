@@ -12,6 +12,8 @@ public class MeleeEnemy : MonoBehaviour
     [SerializeField] private LayerMask playerLayer;
     private float cooldownTimer = Mathf.Infinity;
     private bool isAttacking = false; // Flag untuk mencegah MeleeAttack berulang
+    [SerializeField] private AudioSource attackAudioSource; // AudioSource untuk sound effect
+    [SerializeField] private AudioClip meleeAttack1Sound; // Suara untuk MeleeAttack1
 
     private Animator anim;
     private PlayerHealth playerHealth;
@@ -43,6 +45,10 @@ public class MeleeEnemy : MonoBehaviour
                 anim.ResetTrigger("MeleeAttack"); // Hindari trigger dobel
                 anim.SetTrigger("MeleeAttack");
                 isAttacking = true; // Set flag saat menyerang
+                if (attackAudioSource != null && meleeAttack1Sound != null)
+                {
+                    attackAudioSource.PlayOneShot(meleeAttack1Sound); // Putar suara MeleeAttack1
+                }
             }
         }
         else

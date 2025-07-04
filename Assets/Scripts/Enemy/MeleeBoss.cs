@@ -11,6 +11,9 @@ public class MeleeBoss : MonoBehaviour
     [SerializeField] private int damage = 1;
     [SerializeField] private BoxCollider2D boxCollider;
     [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private AudioSource attackAudioSource; // AudioSource untuk sound effect
+    [SerializeField] private AudioClip meleeAttack1Sound; // Suara untuk MeleeAttack1
+    [SerializeField] private AudioClip meleeAttack2Sound; // Suara untuk MeleeAttack2
     private float cooldownTimer = Mathf.Infinity;
     private bool isAttacking = false;
     private Animator anim;
@@ -26,12 +29,11 @@ public class MeleeBoss : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
         enemyPatrol = GetComponent<EnemyPatrol>();
 
-        if (anim == null || boxCollider == null || impulseSource == null)
+        if (anim == null || boxCollider == null || impulseSource == null || attackAudioSource == null)
         {
-            Debug.LogError("Animator, BoxCollider2D, atau ImpulseSource tidak ditemukan!");
+            Debug.LogError("Animator, BoxCollider2D, ImpulseSource, atau AudioSource tidak ditemukan!");
         }
     }
-
     private void Update()
     {
         cooldownTimer += Time.deltaTime;
@@ -51,11 +53,19 @@ public class MeleeBoss : MonoBehaviour
             {
                 anim.SetTrigger("MeleeAttack1");
                 Debug.Log("Memulai MeleeAttack1 pada " + Time.time);
+                if (attackAudioSource != null && meleeAttack1Sound != null)
+                {
+                    attackAudioSource.PlayOneShot(meleeAttack1Sound); // Putar suara MeleeAttack1
+                }
             }
             else
             {
                 anim.SetTrigger("MeleeAttack2");
                 Debug.Log("Memulai MeleeAttack2 pada " + Time.time);
+                if (attackAudioSource != null && meleeAttack2Sound != null)
+                {
+                    attackAudioSource.PlayOneShot(meleeAttack2Sound); // Putar suara MeleeAttack2
+                }
             }
         }
 
