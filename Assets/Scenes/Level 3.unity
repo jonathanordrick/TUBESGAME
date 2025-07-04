@@ -257799,7 +257799,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   respawnDelay: 0
   endGameSceneName: EndGame
-  maxLives: 1
+  maxLives: 2
   maxHealth: 10
 --- !u!114 &833833293
 MonoBehaviour:
