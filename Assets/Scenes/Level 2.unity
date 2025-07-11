@@ -15579,6 +15579,9 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
+  attackAudioSource: {fileID: 0}
+  meleeAttack1Sound: {fileID: 0}
+  meleeAttack2Sound: {fileID: 0}
   impulseSource: {fileID: 1002520076}
 --- !u!114 &1002520068
 MonoBehaviour:
@@ -64533,7 +64536,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 910.99994, y: 475}
+  m_AnchoredPosition: {x: 800, y: 475}
   m_SizeDelta: {x: 100, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1610573434
@@ -65557,7 +65560,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 98, y: 6.017029}
+  m_AnchoredPosition: {x: -14, y: 6.017029}
   m_SizeDelta: {x: -785.699, y: -352.20203}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1730521361
